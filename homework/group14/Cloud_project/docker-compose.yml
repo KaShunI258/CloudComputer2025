@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # 用于存储错题本和持久化数据
+  mongo:
+    image: mongo:latest
+    container_name: learning_agent_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - app_network
+
+  # 用于存储短期Session状态（当前正在做的题）
+  redis:
+    image: redis:alpine
+    container_name: learning_agent_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
